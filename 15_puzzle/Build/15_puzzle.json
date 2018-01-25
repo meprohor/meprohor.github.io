@@ -1,0 +1,13 @@
+{
+"companyName": "playrix",
+"productName": "15 Puzzle",
+"dataUrl": "15_puzzle.data.unityweb",
+"asmCodeUrl": "15_puzzle.asm.code.unityweb",
+"asmMemoryUrl": "15_puzzle.asm.memory.unityweb",
+"asmFrameworkUrl": "15_puzzle.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Light",
+"backgroundColor": "#FFFFFF"
+}
