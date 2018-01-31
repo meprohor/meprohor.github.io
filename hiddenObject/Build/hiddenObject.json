@@ -1,0 +1,13 @@
+{
+"companyName": "DefaultCompany",
+"productName": "playrix_hiddenObject",
+"dataUrl": "hiddenObject.data.unityweb",
+"asmCodeUrl": "hiddenObject.asm.code.unityweb",
+"asmMemoryUrl": "hiddenObject.asm.memory.unityweb",
+"asmFrameworkUrl": "hiddenObject.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
