@@ -1,0 +1,65 @@
+Name: Martin Prokhorovskiy
+Age: 22 y.o. (year of birth: '96)
+
+Preferred communication method:
+ - email: meprohor@gmail.com
+
+website: github.com/meprohor/
+
+Current locatopn: Petrozavodsk, Karelia (North-Western region), Russia
+Citizenship: russian
+
+Relocation readiness: willing to relocate
+
+education:
+ - highschool: Derzavinskiy Lyceum in an "Advanced Informational Technologies and Mathematics" class
+	During studying attended and received prized- and winning places at local, city-wide and country-wide contests
+	in mathematics (kangaroo (rus. - кенгуру)), informational technologies (CIT (rus. - КИТ), lyceum local contest, local university city-wide contest),
+	english (British Bulldog)
+
+ - incomplete higher: 4 years in Petrozavodsk State University (PetrSU) at department of
+	"Informational Systems and Technologies"
+	During studying actively attended courses that required to build independent program, made by oneself or in a small team.
+	Such programs were made as an entertainment programs (games / gamificated).
+
+Certificates and exam attendance:
+ - IELTS (Academic): 7.0 (Speaking 7.5, Reading 7.0, Writing 6.0) - December 2017
+	Organized by "Oracul" company (rus. - "Оракул") with University of Cambridge in Petrozavodsk
+ - Unity Professional Programmer Beta Exam: 385 points out of 400 needed to be certified
+	Organized by Peter the Great St. Petersburg Polytechnic University with Pearson VUE and Unity Technologies in Saint Petersburg
+
+Work experience:
+ - Nerdy Yetis (Indie, Petrozavodsk) August 2015 - September 2016
+	Unity C# Programmer
+	Prototyping and implementing game projects and mechanics according to design-document,
+	2D assets integration, procedural generation of a small closed locations for virtual boardgame (not released),
+	implementation physics-based random result determionation (dice roll) and coherent interaction between multiple
+	spaces (World Space, Screen Space, Viewport, UI)
+
+ - Remagic Digital (Commercial development, Petrozavodsk) June 2018 - October 2018
+	Unity Developer
+	Prototyping and implementation of advertisement applications that use AR (Vuforia) and VR (GearVR),
+	3D assets integration (including comlpexly animated), Shader writing for projects needs.
+	In addition to programming tasks: procedural and node-based scene elements animation (UI, World Space, coherent interpolation),
+	implementing ui layout, optimizing given assets with minimal or affordable quality loss.
+
+Skills and experience with OS, Software or API:
+ - University courses:
+	C, Java, JavaScripts, C++, PHP, Git
+ - Personal studying / job experience:
+	.NET C# (experience in developing simple applications and both independent and commercial experience in developing under Unity3D),
+	Blender3D, Vuforia, GearVR, Unity3D, Windows 7-10, Linux, OSX, Android, ShaderLab, Autodesk Maya / 3DSMax, Adobe Photoshop,
+	GIMP, Substance Painter, Open Broadcast Software (OBS)
+
+Traits:
+ - Punctuality
+ - Responsability
+ - Aiming to provide polished, scalable and reusable modules and applications
+ - Eager to take part in game development
+ - Willing to study and polish skills
+
+Professional interests:
+ - Gameplay-programming
+ - Procedural generation
+ - Shaders
+ - Gamedesign
