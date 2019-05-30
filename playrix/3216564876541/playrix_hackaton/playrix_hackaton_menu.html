@@ -42,7 +42,8 @@
 				'./Chameleon_web/Chameleon.html',
 				<!-- 'http://hackathon.playrix.com/jumpeat/', -->
 				'./jumpeat/index.html',
-				'http://hackathon.playrix.com/NeedForStop/',
+				<!-- 'http://hackathon.playrix.com/NeedForStop/', -->
+				'./NeedForStop_web/index.html',
 				'https://example.com',
 				'http://hackathon.playrix.com/Run_Corgi_Run/',
 				'http://games.angarskoe.ru/projects/untapless/',
@@ -51,7 +52,8 @@
 				'http://hackathon.playrix.com/RageOfTheLemmings/',
 				'http://hackathon.playrix.com/goblinsdice/',
 				<!-- 'http://chickenkindergarden.playrix.com/index.html'] -->
-				'./ChickenKindergarten/index.html']
+				'./ChickenKindergarten/index.html',
+				'https://example.com']
 			
 			<!-- animation frames per second -->
 			var fps = 40;
@@ -106,6 +108,15 @@
 				elem.style.visibility = 'hidden';
 			}
 			
+			function setGameSrc(num) {
+            	var url = sources[num - 1],
+                  holder = document.getElementById('gameframe'),
+                  frame = holder.getElementsByTagName('iframe')[0];
+                frame.style.display = "block";
+                frame.src = url;
+                document.getElementById('plane3').insertBefore(holder, null);
+            }
+			
 			function showDescription() {
 				
 				showElement(gamedescription);
@@ -124,18 +135,10 @@
 			}
 			function hideGame() {
 				
+				setGameSrc(14);
 				hideElement(gamewindow);
 				plane1.style.zIndex = '1'; plane2.style.zIndex = '0'; plane3.style.zIndex = '0';
 			}
-			
-			function setGameSrc(num) {
-            	var url = sources[num - 1],
-                  holder = document.getElementById('gameframe'),
-                  frame = holder.getElementsByTagName('iframe')[0];
-                frame.style.display = "block";
-                frame.src = url;
-                document.getElementById('plane3').insertBefore(holder, null);
-            }
 			
 		</script>
 		
