@@ -11,7 +11,10 @@
 		<style>
 			td {
 				
-				background-color: lightblue;
+				background-color: none;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: contain;
 				height: 12;
 			}
 			iframe {
@@ -21,6 +24,11 @@
 				padding: 0;
 				margin: 0;
 				border: none;
+			}
+			div {
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
 			}
 		</style>
 		
@@ -154,26 +162,26 @@
 		<div id='plane1' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:1;">
 			<table border='0' style="position:relative; margin: auto; padding: 0; width:75%; height: 80%; top:50%; transform:translateY(-50%);">
 				<!-- <tr> <td onclick="{ setGameSrc(1); showDescription(); }" >none</td> </tr> -->
-				<tr> <td onclick="{ setGameSrc(2); showDescription(); }" >Sola Spaco</td> </tr>
-				<tr> <td onclick="{ setGameSrc(3); showDescription(); }" >ChameleOn</td> </tr>
-				<tr> <td onclick="{ setGameSrc(4); showDescription(); }" >Jump Eat</td> </tr>
-				<tr> <td onclick="{ setGameSrc(5); showDescription(); }" >Need for Stop</td> </tr>
+				<tr> <td onclick="{ setGameSrc(2); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Sola Spaco')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(3); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=ChameleOn')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(4); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Jump Eat')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(5); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Need for Stop')"></td> </tr>
 				<!-- <tr> <td onclick="{ setGameSrc(6); showDescription(); }" >КИБЕРВИТЯ 2488</td> </tr> -->
-				<tr> <td onclick="{ setGameSrc(7); showDescription(); }" >Беги! Корги! Беги!</td> </tr>
-				<tr> <td onclick="{ setGameSrc(8); showDescription(); }" >Untapless</td> </tr>
-				<tr> <td onclick="{ setGameSrc(9); showDescription(); }" >Non office man</td> </tr>
-				<tr> <td onclick="{ setGameSrc(10); showDescription(); }" >Cats&Clew</td> </tr>
-				<tr> <td onclick="{ setGameSrc(11); showDescription(); }" >Rage of the Lemmings</td> </tr>
-				<tr> <td onclick="{ setGameSrc(12); showDescription(); }" >Goblins Dice</td> </tr>
-				<tr> <td onclick="{ setGameSrc(13); showDescription(); }" >Chicken Kinder Garden</td> </tr>
+				<tr> <td onclick="{ setGameSrc(7); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Беги! Корги! Беги!')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(8); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Untapless')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(9); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Non office man')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(10); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Cats&Clew')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(11); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Rage of the Lemmings')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(12); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Goblins Dice')"></td> </tr>
+				<tr> <td onclick="{ setGameSrc(13); showDescription(); }" style="background-size:cover; background-image:url('https://dummyimage.com/1280x64/2228/fff8&text=Chicken Kinder Garden')"></td> </tr>
 			</table>
 		</div>
 		
 		<div id='plane2' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
-			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-color:darkgray;">
+			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('https://dummyimage.com/640x480/aaa/fff&text=gamedescription');">
 				<table border='0' style="width:100%; height:100%; padding:2%; margin:0; background-color:none;">
 					<tr>
-						<td> <img id="logoImage" src="" style="object-fit:contain;"></img> </td>
+						<td style="background-image:url('https://dummyimage.com/300x300/09f/fff&text=placeholder');"></img> </td>
 						<td id="descriptionField" colspan='2' rowspan='2'>description</td>
 					</tr>
 
@@ -182,25 +190,23 @@
 					</tr>
 
 					<tr>
-						<td onclick="showGame();">play</image></td>
-						<td>none</td>
+						<td style = "background-size:contain; background-image:url('https://dummyimage.com/300x120/09f/fff&text=playbutton');" onclick="showGame();"></image></td>
+						<td></td>
 					</tr>
 				</table>
 				
-				<image src="./cross.png" onclick="hideDescription();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
+				<image src='https://dummyimage.com/200/222/fff&text=close' onclick="hideDescription();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
 			</div>
 		</div>
 		
 		<div id='plane3' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
 			<div id='gameframe' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-color:darkgray;">
 				<iframe src=""></iframe>
-				<image src="./cross.png" onclick="hideGame();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
+				<image src='https://dummyimage.com/200/222/fff&text=close' onclick="hideGame();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
 			</div>
 		</div>
 		
-		<div id='bg' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:-1;">
-			<!-- img src="https://dummyimage.com/600x400/000/fff.jpg&text=background" style="object-fit:cover;"></img -->
-		</div>
+		<div id='bg' style="background-image:url('https://dummyimage.com/1280x720/ddd/fff&text=background'); position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:-1;"></div>
 		<script> initialize(); </script>
 		
 	</body>
