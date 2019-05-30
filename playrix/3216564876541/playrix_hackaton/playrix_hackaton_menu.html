@@ -55,7 +55,7 @@
 			<!-- animation frames per second -->
 			var fps = 40;
 			<!-- animation duration -->
-			var lerpspeed = .5;
+			var lerpspeed = .33;
 			<!-- max popup element size in % -->
 			var maxWindowSize = 90;
 			
@@ -119,7 +119,7 @@
 			function showGame() {
 				
 				plane1.style.zIndex = '0'; plane2.style.zIndex = '0'; plane3.style.zIndex = '1';
-				setTimeout( function() { hideElement(gamedescription); showElement(gamewindow); }, 1500);
+				setTimeout( function() { hideElement(gamedescription); showElement(gamewindow); }, 10);
 			}
 			function hideGame() {
 				
