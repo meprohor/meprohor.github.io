@@ -39,17 +39,14 @@
 	.canvas-app-container {
 		background: rgb(255,255,255) no-repeat center url("try_game.png");
 		/* A positioned parent for loading visuals */
-		position: relative;
+		/* position: relative; */
 	}
 
 	.canvas-app-container:-webkit-full-screen {
 		/* Auto width and height in Safari/Chrome fullscreen. */
-		width: auto;
-		height: auto;
 	}
 
 	.canvas-app-canvas {
-		max-height: 100vh;
 		max-width: 100%;
 	}
 
@@ -58,7 +55,7 @@
 		background-color: rgb(245, 245, 245);
 		height: 20px;
 		/* Progress same width as canvas. */
-		width: 1280px;
+		width: 100%;
 		bottom: 0px;
 	}
 
