@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+	<head>
+	
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>prtest</title>
+		<!-- link href="../images/favicon.ico" rel="shortcut icon" / -->
+		
+		<style>
+			td {
+				
+				background-color: lightblue;
+				height: 12;
+			}
+			iframe {
+				
+				width: 100%;
+				height: 100%;
+				padding: 0;
+				margin: 0;
+				border: none;
+			}
+		</style>
+		
+		<script>
+			
+			<!-- element with game description, credits and button to launch game -->
+			var gamedescription;
+			<!-- element with game iframe -->
+			var gamewindow;
+			
+			var plane1;
+			var plane2;
+			var plane3;
+			
+			var sources = ['https://example.com',
+				'http://bvn.playrix.com/index.html',
+				<!-- 'http://hackathon.playrix.com/chameleon/Chameleon.html', -->
+				'./Chameleon_web/Chameleon.html',
+				'http://hackathon.playrix.com/jumpeat/',
+				'http://hackathon.playrix.com/NeedForStop/',
+				'https://example.com',
+				'http://hackathon.playrix.com/Run_Corgi_Run/',
+				'http://games.angarskoe.ru/projects/untapless/',
+				'http://hackathon.playrix.com/rws/',
+				'https://example.com',
+				'http://hackathon.playrix.com/RageOfTheLemmings/',
+				'http://hackathon.playrix.com/goblinsdice/',
+				<!-- 'http://chickenkindergarden.playrix.com/index.html'] -->
+				'./ChickenKindergarten/index.html']
+			
+			<!-- animation frames per second -->
+			var fps = 40;
+			<!-- animation duration -->
+			var lerpspeed = .25;
+			<!-- max popup element size in % -->
+			var maxWindowSize = 90;
+			
+			function initialize() {
+				
+				gamedescription = document.getElementById('description');
+				gamewindow = document.getElementById('gameframe');
+				
+				plane1 = document.getElementById('plane1');
+				plane2 = document.getElementById('plane2');
+				plane3 = document.getElementById('plane3');
+				
+				hideElement(gamedescription);
+				hideElement(gamewindow);
+			}
+			
+			function showElement(elem) {
+				
+				if(null == elem) return;
+				
+				elem.style.width = 0 + '%';
+				elem.style.height = 0 + '%';
+				elem.style.visibility = 'visible';
+				
+				var lerpT = 0.0;
+				var startTime = Date.now();
+				
+				var timer = setInterval( function() {
+						
+						lerpT = (Date.now() - startTime) / 1000 / lerpspeed;
+						lerpT = Math.min(Math.max(lerpT, 0.0), 1.0);
+						
+						elem.style.width = lerpT * maxWindowSize + '%';
+						elem.style.height = lerpT * maxWindowSize + '%';
+						
+						if(1.0 == lerpT) clearInterval(timer);
+						
+					}, 1000 / fps);
+			}
+			
+			function hideElement(elem) {
+				
+				if(null == elem) return;
+				
+				elem.style.width = maxWindowSize + '%';
+				elem.style.height = maxWindowSize + '%';
+				elem.style.visibility = 'hidden';
+			}
+			
+			function showDescription() {
+				
+				showElement(gamedescription);
+				plane1.style.zIndex = '0'; plane2.style.zIndex = '1'; plane3.style.zIndex = '0';
+			}
+			function hideDescription() {
+				
+				hideElement(gamedescription);
+				plane1.style.zIndex = '1'; plane2.style.zIndex = '0'; plane3.style.zIndex = '0';
+			}
+			
+			function showGame() {
+				
+				plane1.style.zIndex = '0'; plane2.style.zIndex = '0'; plane3.style.zIndex = '1';
+				setTimeout( function() { hideElement(gamedescription); showElement(gamewindow); }, 1500);
+			}
+			function hideGame() {
+				
+				hideElement(gamewindow);
+				plane1.style.zIndex = '1'; plane2.style.zIndex = '0'; plane3.style.zIndex = '0';
+			}
+			
+			function setGameSrc(num) {
+            	var url = sources[num - 1],
+                  holder = document.getElementById('gameframe'),
+                  frame = holder.getElementsByTagName('iframe')[0];
+                frame.style.display = "block";
+                frame.src = url;
+                document.getElementById('plane3').insertBefore(holder, null);
+            }
+			
+		</script>
+		
+	</head>
+	
+	<body style="margin:0; padding:0; overflow:hidden;">
+		
+		<div id='plane1' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:1;">
+			<table border='0' style="position:relative; margin: auto; padding: 0; width:75%; height: 80%; top:50%; transform:translateY(-50%);">
+				<tr> <td onclick="{ setGameSrc(1); showDescription(); }" >none</td> </tr>
+				<tr> <td onclick="{ setGameSrc(2); showDescription(); }" >sola spaco</td> </tr>
+				<tr> <td onclick="{ setGameSrc(3); showDescription(); }" >chameleon</td> </tr>
+				<tr> <td onclick="{ setGameSrc(4); showDescription(); }" >jumpeat</td> </tr>
+				<tr> <td onclick="{ setGameSrc(5); showDescription(); }" >need4stop</td> </tr>
+				<tr> <td onclick="{ setGameSrc(6); showDescription(); }" >none</td> </tr>
+				<tr> <td onclick="{ setGameSrc(7); showDescription(); }" >corgi runner</td> </tr>
+				<tr> <td onclick="{ setGameSrc(8); showDescription(); }" >untapless</td> </tr>
+				<tr> <td onclick="{ setGameSrc(9); showDescription(); }" >rws [crashes]</td> </tr>
+				<tr> <td onclick="{ setGameSrc(10); showDescription(); }" >none</td> </tr>
+				<tr> <td onclick="{ setGameSrc(11); showDescription(); }" >lemmings</td> </tr>
+				<tr> <td onclick="{ setGameSrc(12); showDescription(); }" >goblin</td> </tr>
+				<tr> <td onclick="{ setGameSrc(13); showDescription(); }" >chicken</td> </tr>
+			</table>
+		</div>
+		
+		<div id='plane2' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
+			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-color:darkgray;">
+				<table border='0' style="width:100%; height:100%; padding:2%; margin:0; background-color:none;">
+					<tr>
+						<td> <img id="logoImage" src="" style="object-fit:contain;"></img> </td>
+						<td id="descriptionField" colspan='2' rowspan='2'>description</td>
+					</tr>
+
+					<tr>
+						<td id="creditsField" rowspan='2'>credits</td>
+					</tr>
+
+					<tr>
+						<td onclick="showGame();">play</image></td>
+						<td>none</td>
+					</tr>
+				</table>
+				
+				<image src="./cross.png" onclick="hideDescription();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
+			</div>
+		</div>
+		
+		<div id='plane3' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
+			<div id='gameframe' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-color:darkgray;">
+				<iframe src=""></iframe>
+				<image src="./cross.png" onclick="hideGame();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
+			</div>
+		</div>
+		
+		<div id='bg' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:-1;">
+			<!-- img src="https://dummyimage.com/600x400/000/fff.jpg&text=background" style="object-fit:cover;"></img -->
+		</div>
+		<script> initialize(); </script>
+		
+	</body>
+	
+</html>

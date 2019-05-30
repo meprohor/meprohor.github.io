@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Chicken Kindergarten</title>
+	<script src="main.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body style="margin:0; padding:0; overflow:hidden;">
+	<canvas id="gamecanvas" width="176" height="176"></canvas>
+	<div id="score" class="hidden">0</div>
+	<div id="start">
+		<h1>Добро пожаловать в <b>Куриный Детский Сад!</b></h1><br />
+		Не дайте цыплятам сбежать<br />
+		<br />
+		<div id="highscore">
+			<table id="highscore-table"></table>
+		</div>
+		<br />
+		<h2>Нажмите, чтобы играть</h2>
+	</div>
+	<script>
+		let skin = new Image();
+		skin.onload = () => {
+			let userInfo = {
+				highscores: []
+			};
+			let saves = window.localStorage.getItem('highscores');
+			if (saves) {
+				try {
+					userInfo.highscores = JSON.parse(saves);
+				} catch (e) {}
+			}
+
+			let str = '';
+			for (let i = 0; i < userInfo.highscores.length; i++) {
+				str += '<tr><th>' + userInfo.highscores[i].name + '</th><th>' + userInfo.highscores[i].score + '</th></tr>';
+			}
+			document.getElementById('highscore-table').innerHTML = str;
+
+			let gw = 0;
+			let config = {
+				updateRate: 50,
+				getLevelTime: () => 30,
+				getGrassCount: () => 40,//Math.floor(Math.random() * 3 + 1),
+				getGrassVariant: () => Math.floor(Math.random() * 5),
+				getChickCount: (userInfo) => 6,//userInfo.level,
+				getWormsCount: (userInfo) => 3,//userInfo.level,
+				getAreaBounds: () => {return {x0: 20, y0: 10, x1: 176 - 20, y1: 176 - 32}},
+				getNextChickTimer: (count) => 10 - count > 3 ? 10 - count : 3
+			};
+			window.g = new Game(document.getElementById('gamecanvas'), skin, config, userInfo);
+		};
+		skin.src = 'skin.png';
+	</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+@font-face {
+	font-family: 'Pixelated';
+	src: url('16105.ttf');
+}
+#start {
+	font-family: 'Pixelated';
+	width: 704px;
+	height: 704px;
+}
+#gamecanvas {
+	image-rendering: pixelated;
+	width: 704px;
+	height: 704px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%, -50%);
+}
+.hidden {
+	display: none;
+}
+h1 {
+	margin: 0;
+}
+#start {
+	padding: 0 20px;
+	/* margin-top: -704px; */
+	opacity: 0.99;
+	font-size: 2em;
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%, -50%);
+}
+th {
+	font-size: 1.2em;
+	width: 100px;
+	color: darkblue;
+}
+table {
+	width: 50%;
+}
+#highscore {
+	width: 570px;
+	overflow-y: scroll;
+	height: 420px;
+}
+b {
+	color: navy;
+}
+#score {
+	/* margin-top: -704px; */
+	opacity: 0.99;
+	font-family: 'Pixelated';
+	font-size: 5em;
+	padding: 0 20px;
+	position:absolute;
+}
