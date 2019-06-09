@@ -24,6 +24,8 @@
 			}
 			td {
 				
+				//background-color:gray;
+				
 				vertical-align:bottom;
 				text-align:center;
 				background-repeat: no-repeat;
@@ -68,37 +70,42 @@
 			var plane2;
 			var plane3;
 			
+			var icons = ['./images/unknown_icon.png',
+				'./images/sola_spaco_icon.png',
+				'./images/chameleon_icon.png',
+				'./images/jumpeat_icon.png',
+				'./images/need_for_stop_icon.png',
+				'./images/unknown_icon.png',
+				'./images/corgi_icon.png',
+				'./images/untapless_icon.png',
+				'./images/nonoffice_man_icon.png',
+				'./images/cats_n_clew_icon.png',
+				'./images/rage_of_the_lemmings_icon.png',
+				'./images/goblins_dice_icon.png',
+				'./images/chicken_kindegarden_icon.png',
+				'./images/unknown_icon.png']
+			
 			var sources = ['https://example.com',
-				<!-- 'http://bvn.playrix.com/index.html', -->
 				'./Sola_spaco/index.html',
-				<!-- 'http://hackathon.playrix.com/chameleon/Chameleon.html', -->
 				'./Chameleon_web/Chameleon.html',
-				<!-- 'http://hackathon.playrix.com/jumpeat/', -->
 				'./jumpeat/index.html',
-				<!-- 'http://hackathon.playrix.com/NeedForStop/', -->
 				'./NeedForStop_web/index.html',
 				'https://example.com',
-				<!-- 'http://hackathon.playrix.com/Run_Corgi_Run/', -->
 				'./Run_Corgi_Run/index.html',
-				<!-- 'http://games.angarskoe.ru/projects/untapless/', -->
 				'./untapless/index.html',
-				<!-- 'http://hackathon.playrix.com/rws/', -->
 				'./rws/index.html',
 				'./cats/index.html',
-				<!-- 'http://hackathon.playrix.com/RageOfTheLemmings/', -->
 				'./RageOfTheLemmings_web/index.html',
-				<!-- 'http://hackathon.playrix.com/goblinsdice/', -->
 				'./goblin/index.html',
-				<!-- 'http://chickenkindergarden.playrix.com/index.html'] -->
 				'./ChickenKindergarten/index.html',
 				'https://example.com']
 			
 			<!-- animation frames per second -->
-			var fps = 40;
+			var fps = 144;
 			<!-- animation duration -->
-			var lerpspeed = .33;
+			var lerpspeed = .3;
 			<!-- max popup element size in % -->
-			var maxWindowSize = 90;
+			var maxWindowSize = 95;
 			
 			function initialize() {
 				
@@ -155,6 +162,11 @@
                 document.getElementById('plane3').insertBefore(holder, null);
             }
 			
+			function setGameIcon(num) {
+            	var icon_uri = icons[num - 1],
+                  holder = document.getElementById('icon');
+                holder.style.backgroundImage = "url('" + icon_uri + "')";
+            }
 			function showDescription() {
 				
 				showElement(gamedescription);
@@ -169,7 +181,12 @@
 			function showGame() {
 				
 				plane1.style.zIndex = '0'; plane2.style.zIndex = '0'; plane3.style.zIndex = '1';
-				setTimeout( function() { hideElement(gamedescription); showElement(gamewindow); }, 10);
+				// setTimeout( function() { hideElement(gamedescription); showElement(gamewindow); }, 10);
+				setTimeout( function() {
+					hideElement(gamedescription);
+					gamewindow.style.width = maxWindowSize + '%';
+					gamewindow.style.height = maxWindowSize + '%';
+					gamewindow.style.visibility = 'visible'; }, 10);
 			}
 			function hideGame() {
 				
@@ -187,69 +204,49 @@
 		<div id='plane1' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:1;">
 			<table border='0' cellspacing='32' style="position:relative; margin: auto; padding: 0; width:32%; height: 80%; top:50%; transform:translateY(-50%);">
 				<tr>
-					<td onclick="{ setGameSrc(2); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/sola_spaco_icon.png');"> <p>Sola Spaco</p> </td>
-					<td onclick="{ setGameSrc(3); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chameleon_icon.png');"> <p>ChameleOn</p> </td>
-					<td onclick="{ setGameSrc(4); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/jumpeat_icon.png');"> <p>Jumpeat</p> </td>
+					<td onclick="{ setGameSrc(2); setGameIcon(2); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/sola_spaco_icon.png');"> <p>Sola Spaco</p> </td>
+					<td onclick="{ setGameSrc(3); setGameIcon(3); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chameleon_icon.png');"> <p>ChameleOn</p> </td>
+					<td onclick="{ setGameSrc(4); setGameIcon(4); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/jumpeat_icon.png');"> <p>Jumpeat</p> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(5); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/need_for_stop_icon.png');"> <p>Need for Stop</p> </td>
-					<td onclick="{ setGameSrc(7); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/corgi_icon.png');"> <p>Run! Corgi! Run!</p> </td>
-					<td onclick="{ setGameSrc(8); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/untapless_icon.png');"> <p>Untapless</p> </td>
+					<td onclick="{ setGameSrc(5); setGameIcon(5); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/need_for_stop_icon.png');"> <p>Need for Stop</p> </td>
+					<td onclick="{ setGameSrc(7); setGameIcon(7); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/corgi_icon.png');"> <p>Run! Corgi! Run!</p> </td>
+					<td onclick="{ setGameSrc(8); setGameIcon(8); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/untapless_icon.png');"> <p>Untapless</p> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(9); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/nonoffice_man_icon.png');"> <p>Non Office Man</p> </td>
-					<td onclick="{ setGameSrc(10); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cats_n_clew_icon.png');"> <p>Cats & Clew</p> </td>
-					<td onclick="{ setGameSrc(11); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/rage_of_the_lemmings_icon.png');"> <p>Rage of the Lemmings</p> </td>
+					<td onclick="{ setGameSrc(9); setGameIcon(9); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/nonoffice_man_icon.png');"> <p>Non Office Man</p> </td>
+					<td onclick="{ setGameSrc(10); setGameIcon(10); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cats_n_clew_icon.png');"> <p>Cats & Clew</p> </td>
+					<td onclick="{ setGameSrc(11); setGameIcon(11); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/rage_of_the_lemmings_icon.png');"> <p>Rage of the Lemmings</p> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(12); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/goblins_dice_icon.png');"> <p>Goblins Dice</p> </td>
-					<td onclick="{ setGameSrc(13); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chicken_kindegarden_icon.png');"> <p>Chicken Kindergarden</p> </td>
+					<td onclick="{ setGameSrc(12); setGameIcon(12); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/goblins_dice_icon.png');"> <p>Goblins Dice</p> </td>
+					<td onclick="{ setGameSrc(13); setGameIcon(13); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chicken_kindegarden_icon.png');"> <p>Chicken Kindergarden</p> </td>
 				</tr>
 			</table>
 		</div>
-		
-		<!--
-		<div id='plane1' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:1;">
-			<table border='0' style="position:relative; margin: auto; padding: 0; width:32%; height: 80%; top:50%; transform:translateY(-50%);">
-				<!-- <tr> <td onclick="{ setGameSrc(1); showDescription(); }" >none</td> </tr>  --
-				<tr> <td onclick="{ setGameSrc(2); showDescription(); }" style="background-size:contain; background-image:url('./images/but_1.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(3); showDescription(); }" style="background-size:contain; background-image:url('./images/but_2.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(4); showDescription(); }" style="background-size:contain; background-image:url('./images/but_3.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(5); showDescription(); }" style="background-size:contain; background-image:url('./images/but_4.png')"></td> </tr>
-				<!-- <tr> <td onclick="{ setGameSrc(6); showDescription(); }" >КИБЕРВИТЯ 2488</td> </tr>  --
-				<tr> <td onclick="{ setGameSrc(7); showDescription(); }" style="background-size:contain; background-image:url('./images/but_5.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(8); showDescription(); }" style="background-size:contain; background-image:url('./images/but_6.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(9); showDescription(); }" style="background-size:contain; background-image:url('./images/but_7.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(10); showDescription(); }" style="background-size:contain; background-image:url('./images/but_8.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(11); showDescription(); }" style="background-size:contain; background-image:url('./images/but_9.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(12); showDescription(); }" style="background-size:contain; background-image:url('./images/but_10.png')"></td> </tr>
-				<tr> <td onclick="{ setGameSrc(13); showDescription(); }" style="background-size:contain; background-image:url('./images/but_11.png')"></td> </tr>
-			</table>
-		</div>
-		-->
 		
 		<div id='plane2' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
 			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('./images/popup_bg.png');">
 				<table border='0' style="width:100%; height:100%; padding:2%; margin:0; background-color:none;">
 					<tr>
-						<td style="background-image:url('https://dummyimage.com/300x300/09f/fff&text=placeholder');"></img> </td>
-						<td id="descriptionField" colspan='2' rowspan='2'>description</td>
+						<td id="icon"  rowspan='2' style="background-position:center top; background-size:60% auto;"></img> </td>
+						<td id="descriptionField" colspan='2' rowspan='2'>
+							
+						</td>
 					</tr>
 
 					<tr>
-						<td id="creditsField" rowspan='2'>credits</td>
 					</tr>
 
 					<tr>
-						<td style = "background-size:contain; background-image:url('./images/playbutton.png');" onclick="showGame();"></image></td>
+						<td style = "background-size:80% auto; background-image:url('./images/playbutton.png');" onclick="showGame();"></image></td>
 						<td></td>
+						<td style = "background-size:80% auto; background-image:url('./images/dontplaybutton.png');" onclick="hideDescription();"></td>
 					</tr>
 				</table>
-				
-				<image src='https://dummyimage.com/200/222/fff&text=close' onclick="hideDescription();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
 			</div>
 		</div>
 		
