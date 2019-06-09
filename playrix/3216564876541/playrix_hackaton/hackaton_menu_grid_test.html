@@ -380,6 +380,12 @@
 			}
 			function hideDescription() {
 				
+				for(var i = 1; i <= 6; i++) {
+					
+					holder = document.getElementById('photo' + i);
+					holder.style.visibility = 'hidden';
+				}
+				
 				hideElement(gamedescription);
 				plane1.style.zIndex = '1'; plane2.style.zIndex = '0'; plane3.style.zIndex = '0';
 			}
@@ -390,6 +396,12 @@
 				// setTimeout( function() { hideElement(gamedescription); showElement(gamewindow); }, 10);
 				setTimeout( function() {
 					hideElement(gamedescription);
+					for(var i = 1; i <= 6; i++) {
+						
+						holder = document.getElementById('photo' + i);
+						holder.style.visibility = 'hidden';
+					}
+					
 					gamewindow.style.width = maxWindowSize + '%';
 					gamewindow.style.height = maxWindowSize + '%';
 					gamewindow.style.visibility = 'visible'; }, 10);
