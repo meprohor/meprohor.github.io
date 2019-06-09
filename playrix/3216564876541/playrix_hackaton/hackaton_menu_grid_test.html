@@ -53,7 +53,7 @@
 			div {
 				background-repeat: no-repeat;
 				background-position: center;
-				background-size: cover;
+				background-size: contain;
 			}
 		</style>
 		
@@ -173,7 +173,7 @@
 			}
 			function hideGame() {
 				
-				setGameSrc(14);
+				setGameSrc(1);
 				hideElement(gamewindow);
 				plane1.style.zIndex = '1'; plane2.style.zIndex = '0'; plane3.style.zIndex = '0';
 			}
@@ -232,7 +232,7 @@
 		-->
 		
 		<div id='plane2' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
-			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('https://dummyimage.com/640x480/aaa/fff&text=gamedescription');">
+			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('./images/popup_bg.png');">
 				<table border='0' style="width:100%; height:100%; padding:2%; margin:0; background-color:none;">
 					<tr>
 						<td style="background-image:url('https://dummyimage.com/300x300/09f/fff&text=placeholder');"></img> </td>
@@ -244,7 +244,7 @@
 					</tr>
 
 					<tr>
-						<td style = "background-size:contain; background-image:url('https://dummyimage.com/300x120/09f/fff&text=playbutton');" onclick="showGame();"></image></td>
+						<td style = "background-size:contain; background-image:url('./images/playbutton.png');" onclick="showGame();"></image></td>
 						<td></td>
 					</tr>
 				</table>
@@ -254,7 +254,7 @@
 		</div>
 		
 		<div id='plane3' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
-			<div id='gameframe' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('https://dummyimage.com/640x480/ccc/fff&text=Game background');">
+			<div id='gameframe' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('./images/popup_bg.png');">
 				<iframe src=""></iframe>
 				<image src='https://dummyimage.com/200/222/fff&text=close' onclick="hideGame();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
 			</div>
