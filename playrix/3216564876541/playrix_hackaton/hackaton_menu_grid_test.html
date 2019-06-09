@@ -9,12 +9,38 @@
 		<!-- link href="../images/favicon.ico" rel="shortcut icon" / -->
 		
 		<style>
+			
+			@font-face {
+				
+				font-family: 'cerapro';
+				src: url('cerapro-webfont.woff2') format('woff2'),
+					url('cerapro-webfont.woff') format('woff');
+				font-weight: normal;
+				font-style: normal;
+			}
+			table {
+				
+				table-layout:fixed;
+			}
 			td {
 				
-				background-color: none;
+				vertical-align:bottom;
+				text-align:center;
 				background-repeat: no-repeat;
 				background-position: center;
 				background-size: contain;
+			}
+			p {
+				
+				font-family:"cerapro";
+				vertical-align:bottom;
+				position:relative;
+				width:100%;
+				bottom:0px;
+				margin:0;
+				padding:0;
+				user-select:none;
+				pointer-events:none;
 			}
 			iframe {
 				
@@ -156,31 +182,31 @@
 		
 	</head>
 	
-	<body style="margin:0; padding:0; overflow:hidden;">
+	<body text="#230087" style="margin:0; padding:0; overflow:hidden;">
 		
 		<div id='plane1' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:1;">
-			<table border='0' style="position:relative; margin: auto; padding: 0; width:32%; height: 80%; top:50%; transform:translateY(-50%);">
+			<table border='0' cellspacing='32' style="position:relative; margin: auto; padding: 0; width:32%; height: 80%; top:50%; transform:translateY(-50%);">
 				<tr>
-					<td style="background-size:contain; background-image:url('./images/sola_spaco_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/chameleon_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/jumpeat_icon.png');"></td>
+					<td onclick="{ setGameSrc(2); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/sola_spaco_icon.png');"> <p>Sola Spaco</p> </td>
+					<td onclick="{ setGameSrc(3); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chameleon_icon.png');"> <p>ChameleOn</p> </td>
+					<td onclick="{ setGameSrc(4); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/jumpeat_icon.png');"> <p>Jumpeat</p> </td>
 				</tr>
 				
 				<tr>
-					<td style="background-size:contain; background-image:url('./images/need_for_stop_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/corgi_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/untapless_icon.png');"></td>
+					<td onclick="{ setGameSrc(5); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/need_for_stop_icon.png');"> <p>Need for Stop</p> </td>
+					<td onclick="{ setGameSrc(7); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/corgi_icon.png');"> <p>Run! Corgi! Run!</p> </td>
+					<td onclick="{ setGameSrc(8); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/untapless_icon.png');"> <p>Untapless</p> </td>
 				</tr>
 				
 				<tr>
-					<td style="background-size:contain; background-image:url('./images/nonoffice_man_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/cats_n_clew_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/rage_of_the_lemmings_icon.png');"></td>
+					<td onclick="{ setGameSrc(9); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/nonoffice_man_icon.png');"> <p>Non Office Man</p> </td>
+					<td onclick="{ setGameSrc(10); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cats_n_clew_icon.png');"> <p>Cats & Clew</p> </td>
+					<td onclick="{ setGameSrc(11); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/rage_of_the_lemmings_icon.png');"> <p>Rage of the Lemmings</p> </td>
 				</tr>
 				
 				<tr>
-					<td style="background-size:contain; background-image:url('./images/goblins_dice_icon.png');"></td>
-					<td style="background-size:contain; background-image:url('./images/chicken_kindegarden_icon.png');"></td>
+					<td onclick="{ setGameSrc(12); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/goblins_dice_icon.png');"> <p>Goblins Dice</p> </td>
+					<td onclick="{ setGameSrc(13); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chicken_kindegarden_icon.png');"> <p>Chicken Kindergarden</p> </td>
 				</tr>
 			</table>
 		</div>
@@ -203,6 +229,7 @@
 				<tr> <td onclick="{ setGameSrc(13); showDescription(); }" style="background-size:contain; background-image:url('./images/but_11.png')"></td> </tr>
 			</table>
 		</div>
+		-->
 		
 		<div id='plane2' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:0;">
 			<div id='description' style="position:relative; width:100%; height:100%; top:50%; transform:translateY(-50%); margin:0; margin-left:auto; margin-right:auto; padding:0; background-image:url('https://dummyimage.com/640x480/aaa/fff&text=gamedescription');">
@@ -232,7 +259,6 @@
 				<image src='https://dummyimage.com/200/222/fff&text=close' onclick="hideGame();" style="position:absolute; height: 10%; top:0px; right:0px;"></image>
 			</div>
 		</div>
-		-->
 		
 		<div id='bg' style="background-color:#f2f5f8; position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:-1;"></div>
 		<script> initialize(); </script>
