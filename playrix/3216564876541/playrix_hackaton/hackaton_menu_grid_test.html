@@ -13,8 +13,9 @@
 			@font-face {
 				
 				font-family: 'cerapro';
-				src: url('cerapro-webfont.woff2') format('woff2'),
-					url('cerapro-webfont.woff') format('woff');
+				src: url('CeraPro-Bold.woff') format('woff'),
+					url('CeraPro-Bold.ttf') format('truetype'),
+					url('CeraPro-Bold.eot') format('eot');
 				font-weight: normal;
 				font-style: normal;
 			}
@@ -326,7 +327,7 @@
 				
             	var icon_uri = icons[num - 1],
                   holder = document.getElementById('icon');
-                holder.style.backgroundImage = "url('" + icon_uri + "')";
+                holder.style.backgroundImage = "url('./images/icon_overdraw.png'), url('" + icon_uri + "')";
             }
 			
 			function setDescriptionText(num) {
