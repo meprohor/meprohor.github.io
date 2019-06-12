@@ -19,6 +19,16 @@
 				font-weight: normal;
 				font-style: normal;
 			}
+			
+			@font-face {
+				
+				font-family: 'cerapro-reg';
+				src: url('CeraPro-Medium.woff') format('woff'),
+					url('CeraPro-Medium.ttf') format('truetype'),
+					url('CeraPro-Medium.eot') format('eot');
+				font-weight: normal;
+				font-style: normal;
+			}
 			table {
 				
 				table-layout:fixed;
@@ -111,7 +121,7 @@
 				'Самсонов Макар',
 				'Аня Яковлева',
 				'Павел Радионов',
-				'Даниил Привалов - ',
+				'Даниил Привалов',
 				'Илья Порядин'],
 				
 				['Мозговой саботаж',
@@ -124,11 +134,11 @@
 				
 				['Нельзя просто взять и придумать название',
 				'Иван Щербина',
-				'Сергей Сафронов - ',
+				'Сергей Сафронов',
 				'Виктор Шульгин',
 				'Анастасия Францек',
 				'Александр Забежинский',
-				'Алексей Лойкуц - '],
+				'Алексей Лойкуц'],
 				
 				['Real Human ...',
 				'Виктор Коробков',
@@ -193,7 +203,7 @@
 				['./images/authors/Макар Самсонов.png',
 				'./images/authors/Аня Яковлева.png',
 				'./images/authors/Паша Радионов.png',
-				'./images/authors/none.png',
+				'./images/authors/Даня Привалов.png',
 				'./images/authors/Илья Порядин.png'],
 				
 				['./images/authors/Наташа Тимофеева.png',
@@ -204,11 +214,11 @@
 				'./images/authors/Ваня Попович.png'],
 				
 				['./images/authors/Ваня Щербина.png',
-				'./images/authors/none.png',
+				'./images/authors/Сережа Сафронов.png',
 				'./images/authors/Витя Шульгин.png',
 				'./images/authors/Настя Францек.png',
 				'./images/authors/Саша Забежинский.png',
-				'./images/authors/none.png'],
+				'./images/authors/Леша Лойкуц.png'],
 				
 				['./images/authors/Витя Коробков.png',
 				'./images/authors/Даня Дворянинов.png',
@@ -434,31 +444,31 @@
 		<div id='plane1' style="position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:1;">
 			<table border='0' cellspacing='32' style="position:relative; margin: auto; padding: 0; width:32%; height: 80%; top:50%; transform:translateY(-50%);">
 				<tr>
-					<td colspan='3' style="vertical-align:top; height:32px;"> <img src='./images/logo.png' style="width:85%; margin-left:auto; margin-right:auto; vertical-align:top; user-select:none; pointer-events:none;"></img> </td>
+					<td colspan='3' style="vertical-align:top; height:32px;"> <img src='./images/logo.png' style="width:85%; margin-left:auto; margin-right:auto; vertical-align:top; user-select:none; pointer-events:none; transform:translateY(-50%);"></img> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(2); setGameDescription(2); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/sola_spaco_icon.png');"> <p style="transform:translateY(50%);">Sola Spaco</p> </td>
-					<td onclick="{ setGameSrc(3); setGameDescription(3); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chameleon_icon.png');"> <p style="transform:translateY(50%);">ChameleOn</p> </td>
-					<td onclick="{ setGameSrc(4); setGameDescription(4); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/jumpeat_icon.png');"> <p style="transform:translateY(50%);">Jumpeat</p> </td>
+					<td onclick="{ setGameSrc(2); setGameDescription(2); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/sola_spaco_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Sola Spaco</p> </td>
+					<td onclick="{ setGameSrc(3); setGameDescription(3); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chameleon_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">ChameleOn</p> </td>
+					<td onclick="{ setGameSrc(4); setGameDescription(4); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/jumpeat_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Jumpeat</p> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(5); setGameDescription(5); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/need_for_stop_icon.png');"> <p style="transform:translateY(50%);">Need for Stop</p> </td>
-					<td onclick="{ setGameSrc(6); setGameDescription(6); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cyberviktor_icon.png');"> <p style="transform:translateY(50%);">КИБЕРВИТЯ 2488</p> </td>
-					<td onclick="{ setGameSrc(7); setGameDescription(7); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/corgi_icon.png');"> <p style="transform:translateY(50%);">Беги! Корги! Беги!</p> </td>
+					<td onclick="{ setGameSrc(5); setGameDescription(5); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/need_for_stop_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Need for Stop</p> </td>
+					<td onclick="{ setGameSrc(6); setGameDescription(6); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cyberviktor_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">КИБЕРВИТЯ 2488</p> </td>
+					<td onclick="{ setGameSrc(7); setGameDescription(7); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/corgi_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Беги! Корги! Беги!</p> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(8); setGameDescription(8); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/untapless_icon.png');"> <p style="transform:translateY(50%);">Untapless</p> </td>
-					<td onclick="{ setGameSrc(9); setGameDescription(9); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/nonoffice_man_icon.png');"> <p style="transform:translateY(50%);">Non Office Man</p> </td>
-					<td onclick="{ setGameSrc(10); setGameDescription(10); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cats_n_clew_icon.png');"> <p style="transform:translateY(50%);">Cats & Clew</p> </td>
+					<td onclick="{ setGameSrc(8); setGameDescription(8); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/untapless_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Untapless</p> </td>
+					<td onclick="{ setGameSrc(9); setGameDescription(9); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/nonoffice_man_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Non Office Man</p> </td>
+					<td onclick="{ setGameSrc(10); setGameDescription(10); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/cats_n_clew_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Cats & Clew</p> </td>
 				</tr>
 				
 				<tr>
-					<td onclick="{ setGameSrc(11); setGameDescription(11); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/rage_of_the_lemmings_icon.png');"> <p style="transform:translateY(50%);">Rage of the Lemmings</p> </td>
-					<td onclick="{ setGameSrc(12); setGameDescription(12); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/goblins_dice_icon.png');"> <p style="transform:translateY(50%);">Goblins Dice</p> </td>
-					<td onclick="{ setGameSrc(13); setGameDescription(13); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chicken_kindegarden_icon.png');"> <p style="transform:translateY(50%);">Chicken Kindergarden</p> </td>
+					<td onclick="{ setGameSrc(11); setGameDescription(11); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/rage_of_the_lemmings_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Rage of the Lemmings</p> </td>
+					<td onclick="{ setGameSrc(12); setGameDescription(12); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/goblins_dice_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Goblins Dice</p> </td>
+					<td onclick="{ setGameSrc(13); setGameDescription(13); showDescription(); }" style="background-image:url('./images/icon_overdraw.png'), url('./images/chicken_kindegarden_icon.png');"> <p style="font-family:cerapro-reg; transform:translateY(50%);">Chicken Kindergarden</p> </td>
 				</tr>
 			</table>
 		</div>
@@ -475,6 +485,7 @@
 								</tr>
 								<tr>
 									<td id='photo1'> <p id='name1' style="transform:translateY(125%);">name1</p> </td>
+									<!--td id='border' width='16px;'></td-->
 									<td id='photo2'> <p id='name2' style="transform:translateY(125%);">name2</p> </td>
 									<td id='photo3'> <p id='name3' style="transform:translateY(125%);">name3</p> </td>
 									<td id='photo4'> <p id='name4' style="transform:translateY(125%);">name4</p> </td>
@@ -482,7 +493,7 @@
 									<td id='photo6'> <p id='name6' style="transform:translateY(125%);">name6</p> </td>
 								</tr>
 								<tr>
-									<td colspan='6'> <p id='descriptiontext' style="text-align:left; vertical-align:top;">description</p> </td>
+									<td colspan='6'> <p id='descriptiontext' style="font-family:cerapro-reg; text-align:left; vertical-align:top;">description</p> </td>
 								</tr>
 							</table>
 						</td>
