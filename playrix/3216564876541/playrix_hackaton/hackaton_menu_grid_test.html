@@ -306,9 +306,11 @@
 				
 				if(null == elem) return;
 				
-				elem.style.width = 0 + '%';
-				elem.style.height = 0 + '%';
-				elem.style.visibility = 'visible';
+				var shadowElement = document.getElementById('shadow');
+				
+				elem.style.width = 0 + '%'; shadowElement.style.width = 0 + '%';
+				elem.style.height = 0 + '%'; shadowElement.style.height = 0 + '%';
+				elem.style.visibility = 'visible'; shadowElement.style.visibility = 'visible';
 				
 				var lerpT = 0.0;
 				var startTime = Date.now();
@@ -318,8 +320,8 @@
 						lerpT = (Date.now() - startTime) / 1000 / lerpspeed;
 						lerpT = Math.min(Math.max(lerpT, 0.0), 1.0);
 						
-						elem.style.width = lerpT * maxWindowSize + '%';
-						elem.style.height = lerpT * maxWindowSize + '%';
+						elem.style.width = lerpT * maxWindowSize + '%'; shadowElement.style.width = lerpT * 100 + '%';
+						elem.style.height = lerpT * maxWindowSize + '%'; shadowElement.style.height = lerpT * 100 + '%';
 						
 						if(1.0 == lerpT) clearInterval(timer);
 						
@@ -402,6 +404,9 @@
 			}
 			function hideDescription() {
 				
+				var shadowElement = document.getElementById('shadow');
+				shadowElement.style.visibility = 'hidden';
+				
 				for(var i = 1; i <= 6; i++) {
 					
 					holder = document.getElementById('photo' + i);
@@ -429,6 +434,9 @@
 					gamewindow.style.visibility = 'visible'; }, 10);
 			}
 			function hideGame() {
+				
+				var shadowElement = document.getElementById('shadow');
+				shadowElement.style.visibility = 'hidden';
 				
 				setGameSrc(1);
 				hideElement(gamewindow);
@@ -521,6 +529,7 @@
 		<script> initialize(); </script>
 		
 		<div id='overdraw' style="background-size:contain; background-image:url('./images/overdraw.png'); position:absolute; width:100%; height:100%; margin:0; padding:0; z-index:-1;"></div>
+		<div id='shadow' style="visibility:hidden; background-size:contain; background-image:url('./images/popup_shadow.png'); position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%); margin:0; padding:0; z-index:-1;"></div>
 		<script> initialize(); </script>
 		
 	</body>
