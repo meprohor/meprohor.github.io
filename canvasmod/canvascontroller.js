@@ -12,6 +12,15 @@ class Vector2 {
 
     static distance(a, b) { return ( Math.sqrt( (b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y) ) ); }
     static length(a) { return ( Math.sqrt( a.x*a.x + a.y*a.y ) ); }
+    
+    rotate(a) {
+        var cosA = Math.cos(- a);
+        var sinA = Math.sin(- a);
+        var tmp = new Vector2(this.x, this.y);
+
+        this.y = tmp.y * cosA - tmp.x * sinA;
+        this.x = tmp.y * sinA + tmp.x * cosA;
+    }
 }
 
 class Transform {
@@ -49,7 +58,7 @@ class Drawer {
         context.translate(transform.position.x, transform.position.y);
         
         this.deg = transform.rotation * (Math.PI / 180.0);
-        context.rotate( - this.deg); // since aabb is ccw
+        context.rotate(this.deg);
         context.translate(- this.truePivot.x * transform.scale.x,
             - this.truePivot.y * transform.scale.y);
         
@@ -68,37 +77,35 @@ class Collider {
         this.cosA = 0.0;
         this.sinA = 0.0;
 
-        this.tempPoints = [new Vector2(), new Vector2(), new Vector2(), new Vector2()]; // temporal points for aabb; often constantly used
         this.rectPoints = [new Vector2(), new Vector2(), new Vector2(), new Vector2()];
     }
     
-    calcAABBrect(drawer, transform) {
+    calcAABBrect(drawer, transform, debug) {
         // !!! object should be drawn => truePivot and deg should be calculated by now !!!
 
         drawer.fractPivot.x = drawer.innerSize.x * (1.0 - transform.pivot.x);
         drawer.fractPivot.y = drawer.innerSize.y * (1.0 - transform.pivot.y);
 
-        this.cosA = Math.cos(drawer.deg);
-        this.sinA = Math.sin(drawer.deg);
-        
-        this.tempPoints[0].x = - drawer.truePivot.x; this.tempPoints[0].y = - drawer.truePivot.y;
-        this.tempPoints[1].x = drawer.fractPivot.x; this.tempPoints[1].y = - drawer.truePivot.y;
-        this.tempPoints[2].x = drawer.fractPivot.x; this.tempPoints[2].y = drawer.fractPivot.y;
-        this.tempPoints[3].x = - drawer.truePivot.x; this.tempPoints[3].y = drawer.fractPivot.y;
+        this.rectPoints[0].x = - drawer.truePivot.x; this.rectPoints[0].y = - drawer.truePivot.y;
+        this.rectPoints[1].x = drawer.fractPivot.x; this.rectPoints[1].y = - drawer.truePivot.y;
+        this.rectPoints[2].x = drawer.fractPivot.x; this.rectPoints[2].y = drawer.fractPivot.y;
+        this.rectPoints[3].x = - drawer.truePivot.x; this.rectPoints[3].y = drawer.fractPivot.y;
 
         for(var i = 0; i < 4; i += 1) {
-            this.rectPoints[i].y = this.tempPoints[i].y * this.cosA - this.tempPoints[i].x * this.sinA;
-            this.rectPoints[i].x = this.tempPoints[i].y * this.sinA + this.tempPoints[i].x * this.cosA;
+            this.rectPoints[i].rotate(drawer.deg);
             
             this.rectPoints[i].x *= transform.scale.x;
             this.rectPoints[i].x += transform.position.x;
             this.rectPoints[i].y *= transform.scale.y;
             this.rectPoints[i].y += transform.position.y;
+            
+            if(debug && i>1) this.drawAABBrect(1.);
+            // alert('');
         }
     }
     
     // to draw you need to calc first
-    drawAABBrect() {
+    drawAABBrect(width) {
         context.beginPath();
 
         context.moveTo(this.rectPoints[3].x, this.rectPoints[3].y);
@@ -107,33 +114,14 @@ class Collider {
             context.lineTo(this.rectPoints[i].x, this.rectPoints[i].y);
         }
 
-        context.lineWidth = 4.0;
+        context.save();
+        context.lineWidth = (null != width)?width:3.0;
+        context.setLineDash([8.0, 5.0]);
+
         context.stroke();
 
         context.closePath();
-    }
-
-    ntptest(collisionPoint) {
-        // get aabb rect of checked layer
-        var mostLeft = null;
-        var mostRight = null;
-        var mostTop = null;
-        var mostBottom = null;
-
-        this.rectPoints.forEach(rectPoint => {
-            if(null == mostLeft || rectPoint.x < mostLeft) mostLeft = rectPoint.x;
-            if(null == mostRight || rectPoint.x > mostRight) mostRight = rectPoint.x;
-            if(null == mostBottom || rectPoint.y < mostBottom) mostBottom = rectPoint.y;
-            if(null == mostTop || rectPoint.y > mostTop) mostTop = rectPoint.y;
-        });
-        // check if point is within that rect
-        if( ( mostLeft < collisionPoint.x && mostRight > collisionPoint.x ) &&
-            ( mostBottom < collisionPoint.y && mostTop > collisionPoint.y ) ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        context.restore();
     }
 
     tptest(collisionPoint) {
@@ -146,8 +134,6 @@ class Collider {
         for(var i = 0; (result && i < 4); i += 1) {
             ni1 = i + 1; if(ni1 > 3) ni1 -= 4;
             ni2 = ni1 + 1; if(ni2 > 3) ni2 -= 4;
-
-            // alert(i +" "+ ni1 +" "+ ni2 +" :: "+ result);
 
             result = (( ( (this.rectPoints[i].y - this.rectPoints[ni1].y) * (this.rectPoints[ni2].x - this.rectPoints[i].x) +
                 (this.rectPoints[ni1].x - this.rectPoints[i].x) * (this.rectPoints[ni2].y - this.rectPoints[i].y) ) *
@@ -220,7 +206,7 @@ class MouseInfo {
 
     updatePosition (event) {
         this.getPosition(event);
-        if(this.down && handle.active) { handle.apply(); }
+        if(this.down && handle.active) { handle.apply(handle.mode); }
     }
 
     onMouseDown(event) {
@@ -231,8 +217,38 @@ class MouseInfo {
 
         // hitttest handle
         if(null != selectedObject) {
-            var dist = Vector2.distance(selectedObject.transform.position, this.clickPos)
-            if(handleHitbox > dist ) { handle.active = true; }
+            var candidates = null;
+
+            handle.h_atlas.atlasElements.forEach(layer => {
+                layer.drawer.collider.calcAABBrect(layer.drawer, layer.transform);
+                
+                if( layer.drawer.collider.tptest(this.pos) ) {
+                    if(null == candidates)
+                        candidates = [layer];
+                    else
+                        candidates.push(layer);
+                }
+            });
+
+            if(null != candidates) {
+                var mode;
+
+                switch (candidates[ candidates.length - 1 ]) {
+                    case handle.posHandle:
+                        mode = 0;
+                        break;
+                    case handle.rotHandle:
+                        mode = 1;
+                        break;
+                    default:
+                        mode = 2;
+                        handle.scalememory.x = selectedObject.transform.scale.x;
+                        handle.scalememory.y = selectedObject.transform.scale.y;
+                        break;
+                }
+                handle.mode = mode;
+                handle.active = true;
+            }
         }
     }
 
@@ -280,75 +296,84 @@ class Handle{
         this.active = false;
         this.mode = 0;
 
-        var h_atlasElements = [new AtlasElement( new Vector2(0.0, 0.0), new Vector2(128.0, 128.0), null), // position
-            new AtlasElement( new Vector2(128.0, 0.0), new Vector2(128.0, 128.0), null), // rotation
-            new AtlasElement( new Vector2(0.0, 128.0), new Vector2(128.0, 128.0), null), // scale
-            new AtlasElement( new Vector2(128.0, 128.0), new Vector2(128.0, 128.0), null)]; // pivot
+        var h_atlasElements = [new AtlasElement( new Vector2(128.0), new Vector2(128.0), null), // position
+            new AtlasElement( new Vector2(0.0, 128.0), new Vector2(128.0), null), // rotation
+            new AtlasElement( new Vector2(0.0, 128.0), new Vector2(128.0), null), // scale
+            new AtlasElement( new Vector2(0.0, 128.0), new Vector2(128.0), null), // scale
+            new AtlasElement( new Vector2(0.0, 128.0), new Vector2(128.0), null), // scale
+            new AtlasElement( new Vector2(0.0, 128.0), new Vector2(128.0), null)]; // scale
         this.h_atlas = new Atlas("handles.png", h_atlasElements);
+
+        this.posHandle = this.h_atlas.atlasElements[0];
+        this.rotHandle = this.h_atlas.atlasElements[1];
+        this.scaleHandles = [ this.h_atlas.atlasElements[2], this.h_atlas.atlasElements[3],
+            this.h_atlas.atlasElements[4], this.h_atlas.atlasElements[5] ];
         
-        this.defaultScale = new Vector2(1.0, 1.0);
-        this.defaultRotation = 0.0;
-        
-        this.delta = new Vector2(0.0, 0.0);
-        this.mousememory = new Vector2(-1.0, -1.0);
+        this.scalememory = new Vector2();
     }
 
     draw() {
         if(null != selectedObject) {
-            // this.h_atlas.atlasElements[this.mode].transform = selectedObject.transform;
+            if(true) { // configure and draw handle.posHandle 
+                
+                this.posHandle.transform.position.x = selectedObject.transform.position.x;
+                this.posHandle.transform.position.y = selectedObject.transform.position.y;
+                this.posHandle.transform.rotation = selectedObject.transform.rotation;
+                this.posHandle.transform.scale.x = (selectedObject.drawer.innerSize.x * selectedObject.transform.scale.x) / this.posHandle.drawer.innerSize.x;
+                this.posHandle.transform.scale.y = (selectedObject.drawer.innerSize.y * selectedObject.transform.scale.y) / this.posHandle.drawer.innerSize.y;
+                this.posHandle.transform.pivot.x = selectedObject.transform.pivot.x;
+                this.posHandle.transform.pivot.y = selectedObject.transform.pivot.y;
+                
 
-            this.h_atlas.atlasElements[this.mode].transform.position.x = selectedObject.transform.position.x;
-            this.h_atlas.atlasElements[this.mode].transform.position.y = selectedObject.transform.position.y;
+                this.posHandle.draw();
+                this.posHandle.drawer.collider.rectPoints = selectedObject.drawer.collider.rectPoints; // shitty]
+            }
 
-            this.h_atlas.atlasElements[this.mode].draw();
+            if(true) { // configure and draw handle.rotHandle 
+                this.rotHandle.transform.position.x = selectedObject.drawer.collider.rectPoints[0].x +
+                    .5 * (selectedObject.drawer.collider.rectPoints[1].x - selectedObject.drawer.collider.rectPoints[0].x)
+                this.rotHandle.transform.position.y = selectedObject.drawer.collider.rectPoints[0].y +
+                    .5 * (selectedObject.drawer.collider.rectPoints[1].y - selectedObject.drawer.collider.rectPoints[0].y)
+                
+                this.rotHandle.draw();
+            }
+
+            if(true) { // configure and draw each of handle.scaleHandles 
+                var i = 0;
+
+                this.scaleHandles.forEach(element => {
+                    element.transform.position.x = selectedObject.drawer.collider.rectPoints[i].x;
+                    element.transform.position.y = selectedObject.drawer.collider.rectPoints[i ++].y;
+
+                    element.draw();
+                });
+            }
         }
     }
 
-    apply() {
-        switch (this.mode) {
+    apply(mode) {
+        switch (mode) {
             case 0: // position
                 selectedObject.transform.position.x += mouseInfo.delta.x;
                 selectedObject.transform.position.y += mouseInfo.delta.y;
                 break;
             case 1: // rotation
-                selectedObject.transform.rotation += - mouseInfo.delta.x * rotationHandleTweak;
-                while(selectedObject.transform.rotation > 180) { selectedObject.transform.rotation -= 360.0; }
-                while(selectedObject.transform.rotation < -180) { selectedObject.transform.rotation += 360.0; }
+                var smd = Math.atan2(mouseInfo.pos.y - selectedObject.transform.position.y, mouseInfo.pos.x - selectedObject.transform.position.x);
+                selectedObject.transform.rotation = smd * 180.0 / Math.PI + 90.0;
+
                 break;
             case 2: // scale
-                selectedObject.transform.scale.x += mouseInfo.delta.x * sizeHandleTweak;
+                var reference = Vector2.distance(selectedObject.transform.position, mouseInfo.clickPos);
+
+                selectedObject.transform.scale.x = this.scalememory.x * Vector2.distance(selectedObject.transform.position, mouseInfo.pos) / reference;
+                
                 selectedObject.transform.scale.x = Math.min(selectedObject.transform.scale.x, 8.0);
                 selectedObject.transform.scale.x = Math.max(selectedObject.transform.scale.x, 0.1);
+                
                 selectedObject.transform.scale.y = selectedObject.transform.scale.x;
                 break;
             case 3: // pivot
-                selectedObject.transform.pivot.x += mouseInfo.delta.x * sizeHandleTweak;
-                selectedObject.transform.pivot.x = Math.min(selectedObject.transform.pivot.x, 0.0);
-                selectedObject.transform.pivot.x = Math.max(selectedObject.transform.pivot.x, 1.0);
-
-                selectedObject.transform.pivot.y += mouseInfo.delta.y * sizeHandleTweak + sizeHandleTweak;
-                selectedObject.transform.pivot.y = Math.min(selectedObject.transform.pivot.y, 0.0);
-                selectedObject.transform.pivot.y = Math.max(selectedObject.transform.pivot.y, 1.0);
                 break;
-            default:
-                break;
-        }
-    }
-
-    processKeyCode(code) {
-        switch (code) {
-            case 49:
-                this.mode = 0;
-            break;
-            case 50:
-                this.mode = 1;
-            break;
-            case 51:
-                this.mode = 2;
-            break;
-            case 52:
-                // this.mode = 3;
-            break;
             default:
                 break;
         }
@@ -363,8 +388,6 @@ let mouseInfo = new MouseInfo();
 canvas.addEventListener('mousemove', function(e) { mouseInfo.updatePosition(e); } );
 canvas.addEventListener('mousedown', function(e) { mouseInfo.onMouseDown(e); } );
 canvas.addEventListener('mouseup', function(e) { mouseInfo.onMouseUp(e); } );
-
-document.addEventListener("keypress", function(e) { handle.processKeyCode(e.keyCode); } );
 
 /* initialize resources */
 
@@ -403,7 +426,12 @@ function draw() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
     
     layers.forEach(element => { element.draw(); });
-
+    
+    if(null != selectedObject) {
+        selectedObject.drawer.collider.calcAABBrect(selectedObject.drawer, selectedObject.transform); // <- necessary
+        selectedObject.drawer.collider.drawAABBrect();
+    }
+    
     handle.draw();
 }
 
