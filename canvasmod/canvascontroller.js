@@ -12,6 +12,7 @@ class Vector2 {
 
     static distance(a, b) { return ( Math.sqrt( (b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y) ) ); }
     static length(a) { return ( Math.sqrt( a.x*a.x + a.y*a.y ) ); }
+    static dot(a, b) { return a.x * b.x + a.y * b.y; }
     
     rotate(a) {
         var cosA = Math.cos(- a);
@@ -106,15 +107,13 @@ class Collider {
     
     // to draw you need to calc first
     drawAABBrect(width) {
+        context.save();
         context.beginPath();
 
         context.moveTo(this.rectPoints[3].x, this.rectPoints[3].y);
         
-        for(var i = 0; i < 4; i += 1) {
-            context.lineTo(this.rectPoints[i].x, this.rectPoints[i].y);
-        }
+        for(var i = 0; i < 4; i += 1) { context.lineTo(this.rectPoints[i].x, this.rectPoints[i].y); }
 
-        context.save();
         context.lineWidth = (null != width)?width:3.0;
         context.setLineDash([8.0, 5.0]);
 
@@ -192,25 +191,34 @@ class MouseInfo {
         this.delta = new Vector2(0.0, 0.0);
     }
 
-    getPosition(event) {
+    getPosition(event, istouch) {
         this.prevPos.x = this.pos.x;
         this.prevPos.y = this.pos.y;
 
         var rect = canvas.getBoundingClientRect();
-        this.pos.x = event.clientX - rect.left;
-        this.pos.y = event.clientY - rect.top;
+        if (istouch) {
+            this.pos.x = event.touches[0].clientX;
+            this.pos.y = event.touches[0].clientY;
+        }
+        else {
+            this.pos.x = event.clientX;
+            this.pos.y = event.clientY;
+        }
+        
+        this.pos.x -= rect.left;
+        this.pos.y -= rect.top;
 
         this.delta.x = this.pos.x - this.prevPos.x;
         this.delta.y = this.pos.y - this.prevPos.y;
     }
 
-    updatePosition (event) {
-        this.getPosition(event);
+    updatePosition (event, istouch) {
+        this.getPosition(event, istouch);
         if(this.down && handle.active) { handle.apply(handle.mode); }
     }
 
-    onMouseDown(event) {
-        this.updatePosition(event);
+    onMouseDown(event, istouch) {
+        this.updatePosition(event, istouch);
         this.clickPos.x = this.pos.x;
         this.clickPos.y = this.pos.y;
         this.down = true;
@@ -252,9 +260,9 @@ class MouseInfo {
         }
     }
 
-    onMouseUp(event) {
+    onMouseUp(event, istouch) {
         this.down = false;
-        this.updatePosition(event);
+        this.updatePosition(event, istouch);
 
         if(handle.active) {
             handle.active = false;
@@ -351,11 +359,15 @@ class Handle{
         }
     }
 
-    apply(mode) {
+    apply(mode, XorY) {
+        var multiplyer = new Vector2();
+        multiplyer.x = (null != XorY && true == XorY)?0.0:1.0;
+        multiplyer.y = (null != XorY && true == XorY)?0.0:1.0;
+
         switch (mode) {
             case 0: // position
-                selectedObject.transform.position.x += mouseInfo.delta.x;
-                selectedObject.transform.position.y += mouseInfo.delta.y;
+                selectedObject.transform.position.x += mouseInfo.delta.x * multiplyer.x;
+                selectedObject.transform.position.y += mouseInfo.delta.y * multiplyer.y;
                 break;
             case 1: // rotation
                 var smd = Math.atan2(mouseInfo.pos.y - selectedObject.transform.position.y, mouseInfo.pos.x - selectedObject.transform.position.x);
@@ -366,11 +378,10 @@ class Handle{
                 var reference = Vector2.distance(selectedObject.transform.position, mouseInfo.clickPos);
 
                 selectedObject.transform.scale.x = this.scalememory.x * Vector2.distance(selectedObject.transform.position, mouseInfo.pos) / reference;
+                selectedObject.transform.scale.x *= multiplyer.x;
                 
-                selectedObject.transform.scale.x = Math.min(selectedObject.transform.scale.x, 8.0);
-                selectedObject.transform.scale.x = Math.max(selectedObject.transform.scale.x, 0.1);
-                
-                selectedObject.transform.scale.y = selectedObject.transform.scale.x;
+                selectedObject.transform.scale.y = this.scalememory.y * Vector2.distance(selectedObject.transform.position, mouseInfo.pos) / reference;
+                selectedObject.transform.scale.y *= multiplyer.y;
                 break;
             case 3: // pivot
                 break;
@@ -388,6 +399,10 @@ let mouseInfo = new MouseInfo();
 canvas.addEventListener('mousemove', function(e) { mouseInfo.updatePosition(e); } );
 canvas.addEventListener('mousedown', function(e) { mouseInfo.onMouseDown(e); } );
 canvas.addEventListener('mouseup', function(e) { mouseInfo.onMouseUp(e); } );
+
+canvas.addEventListener('touchmove', function(e) { mouseInfo.updatePosition(e, true); } );
+canvas.addEventListener('touchstart', function(e) { mouseInfo.onMouseDown(e, true); } );
+canvas.addEventListener('touchend', function(e) { mouseInfo.onMouseUp(e, true); } );
 
 /* initialize resources */
 
