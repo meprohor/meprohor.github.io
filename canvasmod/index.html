@@ -1,16 +1,61 @@
 <!--# Valentine's Surprise Offering #-->
 <!DOCTYPE html>
-<html style="overflow: hidden; width: 100%; height: 100%;">
+<html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=windows-1251">
     <title>canvas</title>
+    <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    table {
+      table-layout: fixed;
+      width: 100%;
+      height: 100%;
+    }
+    </style>
   </head>
 
-  <body style="overflow: hidden; position: relative; margin: 0; padding: 0; x: 0; y: 0; width: 100%; height: 100%;">
+  <body>
+    
+    <!--
+    <div style="position: absolute; margin: 0; padding: 0; x: 0; y: 0; width: 100%; height: 100%;">
+      <input type="button", onclick="addlayer()">
+    </div style="position: absolute; margin: 0; padding: 0; x: 0; y: 0; width: 100%; height: 100%;">
+    -->
+
+    <table>
+      <tr>
+        <th colspan="2">AAA</th>
+        <th colspan="3"> <canvas id="canvas" width="800" height="600"></canvas> </th>
+      </tr>
+      <tr>
+        <td rowspan="3">AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+      </tr>
+      <tr>
+        <td>AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+        <td>AAA</td>
+      </tr>
+    </table>
+
+    <!--
     <div style="position: absolute; margin: 0; padding: 0; x: 0; y: 0; width: 100%; height: 100%;">
       <canvas id="canvas" width="1920" height="1080"></canvas>
     </div>
+    -->
 
-    <script src="./canvascontroller.js"></script>
+    <script src="./controller.js"></script>
   </bodystyle="position: absolute; margin: 0; padding: 0; x: 0; y: 0; widows: 100%; height: 100%;">
 </html>
