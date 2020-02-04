@@ -4,6 +4,8 @@ const defaultLineSettings = [8.0, 5.0];
 const rotHandleOffset = 64.0;
 const scaleMax = 8.0;
 const scaleMin = .5;
+const fontMaxSize = 128.0;
+const fontMinSize = 16.0;
 const flipDeaddzone = .75;
 const frameWidth = 1.0;
 
@@ -36,13 +38,18 @@ class vec2 {
 
 class Transform {
     constructor(position, rotation, scale, pivot) {
-        this.position = (null != position)?position:new vec2();
+        this.position = (null != position)?position:new vec2( canvas.width * 0.5, canvas.height * 0.5 );
         this.rotation = (null != rotation)?rotation:0.0;
         this.scale = (null != scale)?scale:new vec2(1.0);
         this.pivot = (null != pivot)?pivot:new vec2();
     }
 
     get deg() { return this.rotation * (Math.PI / 180.0); }
+
+    applyScale(newSize) {
+        this.scale.x *= newSize.x;
+        this.scale.y *= newSize.y;
+    }
 
     copy(example) {
         this.position.copy(example.position);
@@ -160,6 +167,61 @@ class Collider {
     }
 }
 
+class Text {
+    constructor(transform) {
+        this.transform = (null != transform)?transform:new Transform();
+
+        this.drawer = new Drawer(null, null, new vec2(64.0));
+        this.collider = new Collider();
+
+        this.size = 32;
+        
+        this.setText("sample text");
+    }
+
+    applyScale(newSize) {
+        newSize.x = (1.0 == newSize.x)?newSize.y:newSize.x;
+        newSize.y = (1.0 == newSize.y)?newSize.x:newSize.y;
+        
+        this.size *= newSize.x;
+        this.size = Math.min(this.size, fontMaxSize);
+        this.size = Math.max(this.size, fontMinSize);
+
+        this.transform.scale.y = this.size / this.drawer.innerSize.y;
+        
+        context.save();
+
+        context.font = this.size +"px Comic Sans MS";
+        context.textAlign = "center";
+
+        var tmp = context.measureText(this.text);
+        this.drawer.innerSize.x = tmp.width;
+        this.transform.pivot.copy(this.drawer.innerSize);
+        this.transform.pivot.mul(0.5);
+
+        context.restore();
+    }
+
+    setText(newtext) {
+        this.text = newtext;
+        this.applyScale( new vec2(1.0) );
+    }
+
+    draw() {
+        context.save();
+
+        context.translate(this.transform.position.x, this.transform.position.y);
+        context.rotate(this.transform.deg);
+
+        context.font = this.size +"px Comic Sans MS";
+        context.fillStyle = "black";
+        context.textAlign = "center";
+
+        context.fillText(this.text, 0.0, this.size * 0.25);
+        context.restore();
+    }
+}
+
 class LayerImage {
     constructor(imageSrc, imageSize, transform) {
         var image = new Image();
@@ -167,8 +229,16 @@ class LayerImage {
         
         this.drawer = new Drawer(image, null, imageSize);
         this.transform = (null != transform)?transform:new Transform();
+
+        if(null == transform || null == transform.pivot) {
+            this.transform.pivot.copy(this.drawer.innerSize);
+            this.transform.pivot.mul(0.5);
+        }
+
         this.collider = new Collider();
     }
+
+    applyScale(newSize) { this.transform.applyScale(newSize); }
 
     draw() { this.drawer.draw(this); }
 }
@@ -178,8 +248,15 @@ class AtlasElement {
         this.drawer = new Drawer(null, positionInAtlas, elementSize);
         this.transform = (null != transform)?transform:new Transform();
 
+        if(null == transform || null == transform.pivot) {
+            this.transform.pivot.copy(this.drawer.innerSize);
+            this.transform.pivot.mul(0.5);
+        }
+
         this.collider = new Collider();
     }
+    
+    applyScale(newSize) { this.transform.applyScale(newSize); }
     
     draw() { this.drawer.draw(this); }
 }
@@ -190,7 +267,10 @@ class Atlas {
         this.image.src = imageSrc;
         this.atlasElements = atlasElements;
 
-        this.atlasElements.forEach(element => { element.drawer.image = this.image; });
+        if(null != this.atlasElements)
+            this.atlasElements.forEach(element => { element.drawer.image = this.image; });
+        else
+            this.atlasElements = [];
     }
 
     add(newElement) {
@@ -202,7 +282,7 @@ class Atlas {
         if(!this.atlasElements.includes(element)) { return; }
 
         var index = this.atlasElements.indexOf(element);
-        this.atlasElements.splice(index);
+        this.atlasElements.splice(index, 1);
     }
 }
 
@@ -241,6 +321,8 @@ class Input {
 
         var tmpRect = canvas.getBoundingClientRect();
         this.brect = new vec2(tmpRect.left, tmpRect.top);
+        this.special = [16, 86, 83, 79];
+        this.cheat = [];
     }
 
     addEntry(event) { this.schedule.push( [event, new InputState().copy(this.s)] ); }
@@ -284,6 +366,14 @@ class Input {
         this.addEntry(event);
     }
 
+    onKeyDown(event) {
+        this.addEntry(event);
+    }
+
+    onKeyUp(event) {
+        this.addEntry(event);
+    }
+
     process() {
         this.schedule.forEach(entry => {
             switch (entry[0].type) {
@@ -295,6 +385,12 @@ class Input {
                     break;
                 case this.typeUp:
                     this._processMouseUp( entry[1] );
+                    break;
+                case 'keydown':
+                    this._processKeyDown( entry[0] );
+                    break;
+                case 'keyup':
+                    this._processKeyUp( entry[0] );
                     break;
                 default:
                     break;
@@ -321,19 +417,7 @@ class Input {
             console.log("input: no handle was hit");
             return;
         }
-        /*
-        switch (candidates[ candidates.length - 1 ]) {
-            case handle.posHandle:
-                handle.mode = 0;
-                break;
-            case handle.rotHandle:
-                handle.mode = 1;
-                break;
-            default:
-                handle.mode = 2;
-                break;
-        }
-        */
+
         handle.active = true;
         handle.actingHandle = candidates[ candidates.length - 1 ];
     }
@@ -355,10 +439,38 @@ class Input {
                 return;
             }
             else {
-                console.log("input: layer was selected");
                 selectedObject = candidates[ candidates.length - 1 ];
+
+                layers.splice( layers.indexOf(selectedObject), 1 );
+                layers.push( selectedObject );
             }
         }
+    }
+
+    _processKeyDown(e) {
+        if(null != selectedObject && 46 == e.keyCode) { // del
+            layers.splice( layers.length - 1, 1 );
+            selectedObject = null;
+        }
+
+        if( this.cheat.includes(e.keyCode) ) { return; }
+        this.cheat.push(e.keyCode);
+        var l = this.cheat.length;
+
+        var result = true;
+        if(l == this.special.length) {
+            for(var i = 0; (i < l && result); i++) { result = ( this.cheat[i] == this.special[i] ); }
+            
+            if(result) {
+                var goose = new AtlasElement(new vec2(), new vec2(256), null);
+                gooseAtlas.add(goose);
+                layers.push(goose);
+            }
+        }
+    }
+
+    _processKeyUp(e) {
+        if( this.cheat.includes(e.keyCode) ) { this.cheat.splice( this.cheat.indexOf(e.keyCode), 1 ); }
     }
 }
 
@@ -502,15 +614,22 @@ class Handle {
                 Handle.tmpVec2.add(inputState.delta);
                 this.newSize = vec2.distance(Handle.tmpVec2, this.pairHandle.transform.position);
                 this.newSize /= this.reference;
-                this.newSize *= this.newSize;
+                this.newSize = this.newSize * this.newSize * Math.sign(this.newSize);
 
                 if(this.uniform) {
-                    selectedObject.transform.scale.x *= this.newSize;
-                    selectedObject.transform.scale.y *= this.newSize;
+                    selectedObject.applyScale( new vec2( this.newSize, this.newSize ) );
+                    // selectedObject.transform.scale.x *= this.newSize;
+                    // selectedObject.transform.scale.y *= this.newSize;
                 }
                 else {
-                    if(!this.XY) { selectedObject.transform.scale.x *= this.newSize; }
-                    else { selectedObject.transform.scale.y *= this.newSize; }
+                    if(!this.XY) {
+                        selectedObject.applyScale( new vec2( this.newSize, 1.0 ) );
+                        // selectedObject.transform.scale.x *= this.newSize;
+                    }
+                    else {
+                        selectedObject.applyScale( new vec2( 1.0, this.newSize ) );
+                        // selectedObject.transform.scale.y *= this.newSize;
+                    }
                 }
                 
                 if(!this.flipFlag) {
@@ -547,12 +666,11 @@ let handle = new Handle();
 let selectedObject = null;
 
 function draw(drawBB) {
-    console.log("draw");
     drawBB = (null != drawBB)?drawBB:false;
 
     context.clearRect(0.0, 0.0, canvas.width, canvas.height);
 
-    context.fillStyle = "pink";
+    context.fillStyle = "gray";
     context.fillRect(0.0, 0.0, canvas.width, canvas.height);
     
     layers.forEach(layer => { layer.draw(); });
@@ -570,19 +688,33 @@ function cycle() {
     input.process();
 }
 
-console.log("draw");
+window.onload = function() {
+    // default mouse support
+    canvas.addEventListener('mousemove', function(e) { input.updatePosition(e); } );
+    canvas.addEventListener('mousedown', function(e) { input.onMouseDown(e); } );
+    canvas.addEventListener('mouseup', function(e) { input.onMouseUp(e); } );
+    // optional touch support
+    canvas.addEventListener('touchmove', function(e) { input.updatePosition(e); } );
+    canvas.addEventListener('touchstart', function(e) { input.onMouseDown(e); } );
+    canvas.addEventListener('touchend', function(e) { input.onMouseUp(e); } );
+    // keyboard actions
+    document.addEventListener('keydown', function(e) { input.onKeyDown(e); } );
+    document.addEventListener('keyup', function(e) { input.onKeyUp(e); } );
+}
 
-// default mouse support
-canvas.addEventListener('mousemove', function(e) { input.updatePosition(e); } );
-canvas.addEventListener('mousedown', function(e) { input.onMouseDown(e); } );
-canvas.addEventListener('mouseup', function(e) { input.onMouseUp(e); } );
-// optional touch support
-canvas.addEventListener('touchmove', function(e) { input.updatePosition(e); } );
-canvas.addEventListener('touchstart', function(e) { input.onMouseDown(e); } );
-canvas.addEventListener('touchend', function(e) { input.onMouseUp(e); } );
+var sampletext = new Text();
+layers.push(sampletext);
 
-var image = new LayerImage("test-img.png", new vec2(128.0), new Transform( new vec2(128.0), 45.0, new vec2(4., 2.), new vec2(64.0) ));
-layers.push(image);
-selectedObject = image;
+let gooseAtlas = new Atlas("goose.png", null);
+
+function addLayerImage(imgSrc, imgSize) {
+    image = new LayerImage(imgSrc, imgSize, null)
+    layers.push(image);
+}
+
+document.getElementById("btn1").onclick = function() { addLayerImage("nickcagecard.jpg", new vec2(250, 181)) };
+document.getElementById("btn2").onclick = function() { addLayerImage("pokecard.png", new vec2(256)) };
+document.getElementById("btn3").onclick = function() { addLayerImage("darwincard.jpg", new vec2(256, 171)) };
+document.getElementById("btn4").onclick = function() { addLayerImage("dicapriocard.jpg", new vec2(256, 152)) };
 
 setInterval( function() { cycle(); }, 33);
